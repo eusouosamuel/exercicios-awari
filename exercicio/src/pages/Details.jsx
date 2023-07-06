@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom/dist/umd/react-router-dom.development";
+import { Link, useParams } from "react-router-dom/dist/umd/react-router-dom.development";
 import dadosusuario from "./../json/usuarios.json";
 import { useEffect, useState } from "react";
 
@@ -18,6 +18,7 @@ const Details  = () => {
 
     return(
         <div style={{margin: '0 16px'}}>
+            <Link to="/">Voltar para Home</Link>
             {usuario !== undefined
             ?   <table style={{
                 border: '1px solid #c00',
@@ -25,6 +26,24 @@ const Details  = () => {
                 width: '100%',
                 marginTop: '30px'
             }}>
+                <tr>
+                    <th style={{textAlign: 'right'}}>Imagem</th>
+                    <td>
+                        <img src={usuario.download_url} alt="Imagem de Usuario" width="72" height="72" />
+                    </td>
+                </tr>
+                <tr>
+                    <th style={{textAlign: 'right'}}>Tamanho da imagem</th>
+                    <td>
+                        <span>{usuario.width}x{usuario.height}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th style={{textAlign: 'right'}}>Mídia Social</th>
+                    <td>
+                        <Link to={usuario.url} target="_blank">Ver meu Perfil</Link>
+                    </td>
+                </tr>
                 <tr>
                     <th style={{textAlign: 'right'}}>Código</th>
                     <td>{usuario.id}</td>
@@ -35,7 +54,6 @@ const Details  = () => {
                 </tr>
                 </table>
             :   'sem dados'}
-
         </div>
     );
 }
