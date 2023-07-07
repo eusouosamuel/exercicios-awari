@@ -1,7 +1,5 @@
-/* eslint-env node */
-
 module.exports = {
-  env: { browser: true, es2020: true },
+  env: { browser: true, es2020: true, node: true },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
@@ -16,8 +14,8 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    'semi': ['warn', 'always'],
-    'quotes': ['warn', 'single'],
+    'semi': ['error', 'always'],
+    'quotes': ['error', 'single'],
     'react/prop-types': 'off'
   },
 };
