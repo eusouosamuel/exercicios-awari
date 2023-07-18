@@ -1,44 +1,71 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axiosApi from '../../routes/axios';
+import pokeApi from '../../routes/axios';
 
 const Pokemon = () => {
-  const [pokemons, setPokemon] = useState([]);
+  const [pokemons, setPokemons] = useState([]);
+  const isLoadedRef = useRef(false);
+
+  const formatData = useCallback(async () => {
+    let apiData = [];
+    for (let i = 0; i < 20; i++) {
+      await pokeApi.get(`${i + 1}/`).then(
+        (data) =>
+          data.status === 200 &&
+          apiData.push({
+            id: data.data.id,
+            name: data.data.name,
+            picture: data.data.sprites.other['official-artwork'].front_default,
+            height: data.data.height,
+            weight: data.data.weight,
+            baseXP: data.data.base_experience,
+          })
+      );
+    }
+    setPokemons(apiData);
+  }, []);
 
   useEffect(() => {
     // conectando API Pokémons
-    axiosApi.get().then(data => {
-      if (data.status === 200) {
-        setPokemon(data.data.results);
-      }
-    }).catch(error => console.log(error));
-  }, []);
-  return(
+    if (!isLoadedRef.current) {
+      formatData();
+    }
+    return () => (isLoadedRef.current = true);
+  }, [formatData]);
+
+  return (
     <div className="pokemon-container">
-      <div className="container-header">
+      <h4>
         <Link to="/">Página Inicial</Link>
-      </div>
+      </h4>
       <div className="container-table">
         <h1>Lista de Pokemons</h1>
         <table className="pokemon-table">
           <thead>
             <tr>
+              <th>Code</th>
+              <th>Imagem</th>
               <th>Pokémon</th>
-              <th>URL</th>
             </tr>
           </thead>
           <tbody>
-            {pokemons.length > 0
-            ? pokemons.map((item, index) =>
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>
-                <Link to={item.url} target='_blank'>{item.url}</Link>
-              </td>
-            </tr>)
-            :
-            <span>Nenhum Pokémon encontrado</span>
-            }
+            {pokemons?.length > 0 ? (
+              pokemons.map((item, index) => (
+                <tr key={index}>
+                  <td>#{item.id}</td>
+                  <td>
+                    <img src={item.picture} alt={item.name} />
+                  </td>
+                  <td>{item.name}</td>
+                  <td>{item.height} mt</td>
+                  <td>{item.weight} kg</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5}>Atualizando Pokémons...</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
