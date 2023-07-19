@@ -1,13 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import pokeApi from '../../routes/axios';
+import { AppContext } from '../../context/AppContext';
 
 const Pokemon = () => {
   const [pokemons, setPokemons] = useState([]);
   const isLoadedRef = useRef(false);
 
+  const {credentials} = useContext(AppContext);
+
   const formatData = useCallback(async () => {
     let apiData = [];
+
     for (let i = 0; i < 20; i++) {
       await pokeApi.get(`${i + 1}/`).then(
         (data) =>
@@ -38,6 +42,21 @@ const Pokemon = () => {
       <h4>
         <Link to="/">Página Inicial</Link>
       </h4>
+      <ul>
+        <li>
+          {credentials.usuario}
+        </li>
+      </ul>
+      <ul>
+        <li>
+          {credentials.email}
+        </li>
+      </ul>
+      <ul>
+        <li>
+          {credentials.logado}
+        </li>
+      </ul>
       <div className="container-table">
         <h1>Lista de Pokemons</h1>
         <table className="pokemon-table">
@@ -46,6 +65,8 @@ const Pokemon = () => {
               <th>Code</th>
               <th>Imagem</th>
               <th>Pokémon</th>
+              <th>Altura</th>
+              <th>Peso</th>
             </tr>
           </thead>
           <tbody>
