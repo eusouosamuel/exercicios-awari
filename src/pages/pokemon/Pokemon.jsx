@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import pokeApi from '../../routes/axios';
 import { AppContext } from '../../context/AppContext';
+import LoginView from '../../components/login_view/LoginView';
 
 const Pokemon = () => {
   const [pokemons, setPokemons] = useState([]);
@@ -39,23 +40,18 @@ const Pokemon = () => {
 
   return (
     <div className="pokemon-container">
+      <LoginView />
       <h4>
         <Link to="/">Página Inicial</Link>
       </h4>
       <ul>
-        <li>
-          {credentials.usuario}
-        </li>
+        <li>{credentials.usuario}</li>
       </ul>
       <ul>
-        <li>
-          {credentials.email}
-        </li>
+        <li>{credentials.email}</li>
       </ul>
       <ul>
-        <li>
-          {credentials.logado}
-        </li>
+        <li>{credentials.logado}</li>
       </ul>
       <div className="container-table">
         <h1>Lista de Pokemons</h1>
