@@ -1,8 +1,16 @@
 import { useEffect, useState } from 'react';
-import { localStorageGet } from '../../utils/LocalData';
+import { localStorageGet, storageRemove } from '../../utils/LocalData';
+import { useNavigate } from 'react-router-dom';
 
 const LoginView = () => {
   const [usuario, setUsuario] = useState();
+  const navigate = useNavigate();
+
+  const onLogoutHandler = () => {
+    storageRemove();
+    navigate('/');
+
+  };
 
   useEffect(() => {
     //const localData = JSON.parse(localStorage.getItem('usuario'));
@@ -23,6 +31,7 @@ const LoginView = () => {
       <div>
         <strong>Usuário: </strong>
         <span>{usuario['usuario']}</span>
+        <button type="button" onClick={onLogoutHandler}>Logout</button>
       </div>
       :
       <span>Sem dados de Usuário</span>

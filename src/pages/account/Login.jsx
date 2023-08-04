@@ -1,11 +1,12 @@
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import store from '../../store';
 import { credentialActions } from '../../store/user';
 
 const Login = () => {
   const usernameRef = useRef('');
   const passcodeRef = useRef('');
+  const navigate = useNavigate();
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -19,6 +20,8 @@ const Login = () => {
     };
 
     store.dispatch(credentialActions.add(usuario));
+
+    navigate('/');
   };
 
 

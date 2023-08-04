@@ -5,3 +5,7 @@ export function localStorageAdd(data) {
 export function localStorageGet() {
   return JSON.parse(localStorage.getItem('usuario'));
 }
+
+export function storageRemove() {
+  localStorage.removeItem('usuario');
+}
